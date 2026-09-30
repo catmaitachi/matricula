@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: matricula
+  datasource:
+    # arquivo local; a pasta data/ fica fora do git
+    url: jdbc:h2:file:./data/matricula
+    username: sa
+    password: ${MATRICULA_DB_SENHA:}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  h2:
+    console:
+      enabled: false
+
+server:
+  # a sessão vive num cookie que o JavaScript não lê, só é enviado pelo próprio site e só por HTTPS
+  # (navegadores aceitam o atributo Secure em http://localhost)
+  servlet:
+    session:
+      timeout: 30m
+      cookie:
+        name: MATRICULA_SESSAO
+        http-only: true
+        secure: true
+        same-site: strict
+  error:
+    include-message: never
+    include-stacktrace: never
+    include-binding-errors: never
+    include-exception: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+matricula:
+  seed:
+    habilitado: false
+  pagamento:
+    fake:
+      indisponivel: false
+    reconciliacao-ms: 30000
+  login:
+    max-falhas: 5
+    bloqueio-minutos: 15

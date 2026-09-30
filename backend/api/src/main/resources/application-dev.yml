@@ -1,0 +1,4 @@
+# Perfil de desenvolvimento: cria contas e dados de exemplo (senhas conhecidas, nunca usar fora daqui).
+matricula:
+  seed:
+    habilitado: true
