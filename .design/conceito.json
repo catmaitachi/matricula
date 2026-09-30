@@ -1,0 +1,80 @@
+{
+  "projeto": "matricula",
+  "alvo": "app",
+  "stack": "React + TypeScript (Vite)",
+  "proposito": "app acadêmico de matrículas com três telas de trabalho (aluno, professor, secretaria) que leva a matrícula de ponta a ponta, da oferta do semestre à cobrança",
+  "publico": "aluno (celular ou notebook, tarefa curta e sob pressão de vagas, uma vez por semestre), professor (consulta rápida de turma) e secretaria (trabalho repetitivo em tabelas e formulários, tela de trabalho o dia todo)",
+  "tom": [
+    {
+      "sim": "claro",
+      "nao": "burocrático"
+    },
+    {
+      "sim": "calmo",
+      "nao": "festivo"
+    },
+    {
+      "sim": "direto",
+      "nao": "decorativo"
+    },
+    {
+      "sim": "marcante",
+      "nao": "genérico"
+    }
+  ],
+  "prioridades": [
+    {
+      "nome": "legibilidade e acessibilidade",
+      "contra": "estética",
+      "escolha": "legibilidade e acessibilidade",
+      "porque": "piso AA, não se negocia; o aluno decide vaga e cobrança lendo a tela"
+    },
+    {
+      "nome": "personalidade forte",
+      "contra": "familiaridade",
+      "escolha": "personalidade forte, na superfície e também na interação",
+      "porque": "o login é a única tela que o grupo aprovou e é a régua: cada tela de trabalho precisa de cena e de forma própria; navegação, lista, campo e confirmação podem ter forma nova, desde que teclado, foco, leitor de tela e alvo de 44px se mantenham"
+    },
+    {
+      "nome": "estado sempre visível",
+      "contra": "decoração",
+      "escolha": "estado sempre visível",
+      "porque": "vaga, limite de 6 matrículas e cobrança pendente precisam ser lidos de relance, e o estado é o gatilho que o gosto do usuário mais reforça"
+    },
+    {
+      "nome": "densidade média por papel",
+      "contra": "respiro",
+      "escolha": "densidade média por papel",
+      "porque": "tabelas compactas para secretaria e professor; telas arejadas com alvos de toque grandes para o aluno"
+    },
+    {
+      "nome": "movimento com significado",
+      "contra": "desempenho",
+      "escolha": "movimento com significado, de cinematográfico",
+      "porque": "entradas coreografadas e transições entre telas são bem-vindas; só transform, opacity e clip-path, curtas, com prefers-reduced-motion virando quadro estático e não tela vazia"
+    }
+  ],
+  "impacto": "cinematografico",
+  "restricoes": [
+    "React + TypeScript + Vite",
+    "responsivo: aluno no celular, alvo de toque de pelo menos 44px",
+    "tema automático (prefers-color-scheme), claro ou escuro por escolha do usuário, guardada só no navegador; contraste mínimo AA em todos",
+    "contraste mínimo AA em ambos os temas",
+    "prefers-reduced-motion respeitado",
+    "somente pt-BR",
+    "poucas dependências: CSS e HTML nativos antes de biblioteca; dependência nova só declarada como custo",
+    "o login (frontend/src/paginas/entrar) é a âncora visual e não muda",
+    "nada de design system global de componentes: cada peça nasce da direção escolhida na vitrine",
+    "ícones só da biblioteca lucide-react, com traço reto e decorativos",
+    "papel granulado, cor de destaque e traços finos como no login; sem grandes superfícies claras e escuras alternadas na mesma tela"
+  ],
+  "fora_de_escopo": [
+    "landing de marketing",
+    "gráficos e dashboards analíticos",
+    "modo offline",
+    "internacionalização",
+    "notas e presença"
+  ],
+  "baseado_em": {},
+  "revisao": 5
+}

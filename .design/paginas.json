@@ -1,0 +1,94 @@
+{
+  "rodada": "2026-09-29-matricula-paginas-3",
+  "escolha": {
+    "cena": "cena-A",
+    "casca": "casca-A-3",
+    "entrada": "entrada-A",
+    "transicao": "transicao-A",
+    "cursor": "cursor-A-2"
+  },
+  "referencias": [
+    {
+      "site": "papershaders",
+      "url": "https://shaders.paper.design/grain-gradient",
+      "slot": "cena",
+      "tomei": "ruído granulado sobre a cor chapada",
+      "mudei": "sem shader: feTurbulence em SVG como máscara; cor invertida pelo tema, como no login",
+      "prioridade": "personalidade forte"
+    },
+    {
+      "site": "motionsites",
+      "url": "https://motionsites.ai",
+      "slot": "cena",
+      "tomei": "título gigante como cena inteira (Monolith Hero)",
+      "mudei": "fundo chapado em vez de imagem; registros de estado em numerais grandes sob o título",
+      "prioridade": "personalidade forte"
+    },
+    {
+      "site": "reactbits",
+      "url": "https://www.reactbits.dev/components/fold-text",
+      "slot": "entrada",
+      "tomei": "letras giram em rotateX a partir de uma dobradiça, com sombra de vinco",
+      "mudei": "CSS puro em vez de gsap; texto real em HTML, letras decorativas com aria-hidden",
+      "prioridade": "movimento com significado"
+    },
+    {
+      "site": "motionprimitives",
+      "url": "https://motion-primitives.com/c/transition-panel.json",
+      "slot": "transicao",
+      "tomei": "troca de painel guiada por saída e entrada",
+      "mudei": "cortina de bloco em clip-path com Web Animations API, sem a biblioteca Motion; corte direto em reduced-motion",
+      "prioridade": "movimento com significado"
+    },
+    {
+      "site": "reactbits",
+      "url": "https://www.reactbits.dev/components/flowing-menu",
+      "slot": "cursor",
+      "tomei": "faixa invertida que entra pela borda por onde o cursor entrou",
+      "mudei": "sem gsap; aqui a linha vira bloco invertido e se abre (grid-template-rows) para mostrar o detalhe; foco por teclado igual",
+      "prioridade": "estado sempre visível"
+    },
+    {
+      "site": "aceternity",
+      "url": "https://ui.aceternity.com/components/sidebar",
+      "slot": "casca",
+      "tomei": "barra lateral que expande no hover",
+      "mudei": "trilho de bloco sólido colado na borda, com grão; abre no cursor, no foco ou fixado pelo botão ≡; atual e hover invertem cores",
+      "prioridade": "estado sempre visível"
+    }
+  ],
+  "decisoes": {
+    "estrutura": "trilho lateral de 80px na cor da página (linha grossa à direita, grão leve), com ícone por destino e abertura para 270px no cursor, no foco ou fixado; cada tela abre com uma cena: linha de contexto mono, título gigante e registros em numerais grandes, separada do conteúdo por uma linha de 4px. O usuário recusou o intercalar de blocos claros e escuros: a inversão de cores ficou só nos estados pequenos (item ativo do trilho, linha sob o cursor) e no login, que é a âncora",
+    "cena": "bloco de cor invertida pelo tema (texto vira fundo) com grão, como o login; título revelado por máscara uma vez; reduced-motion mostra o quadro final",
+    "entrada": "título dobra letra a letra (rotateX de cima, 32 ms de escalonamento); reduced-motion mostra o título pronto",
+    "transicoes": "cortina de bloco sólido com grão, 170 ms cobrindo e 170 ms saindo; reduced-motion vira corte",
+    "cursor": "linha sob o cursor ou o foco vira bloco invertido e se abre para o detalhe; sem resposta de luz nem paralaxe",
+    "rolagem": "nenhuma narrativa de rolagem (app de trabalho)",
+    "icones": "lucide-react (dependência aceita pelo usuário), traço reto com pontas quadradas, sempre decorativo (aria-hidden) e com texto ao lado; envelope em componentes/Icone.tsx"
+  },
+  "guardas": [
+    "título e formulários são HTML legível desde o primeiro quadro; a animação só revela",
+    "todo movimento tem versão em prefers-reduced-motion com quadro final estático, e não tela vazia",
+    "todo hover tem :focus-visible equivalente e alvo de 44px",
+    "estado (vagas, 5/6, cobrança) sempre em texto, nunca só cor",
+    "trilho: rótulos sempre no DOM (só a opacidade muda), nome acessível 'Principal'"
+  ],
+  "custos": [
+    "nenhuma dependência nova: CSS, SVG e Web Animations API",
+    "grão em feTurbulence custa pintura em telas grandes: medir na implementação",
+    "trilho colado na borda toma 80px no celular: no celular vira barra fina com folha (a decidir na implementação)",
+    "lucide-react entra no bundle só com os ícones usados (tree-shaking)"
+  ],
+  "baseado_em": {
+    "conceito": 5
+  },
+  "revisao": 1,
+  "componentes": {
+    "rodada": "2026-09-29-matricula-componentes-1",
+    "segurar": "segurar-A: faixa larga; bloco vermelho corre da esquerda para a direita enquanto se segura (1 s) com a contagem regressiva escrita; recua se soltar antes",
+    "etiquetas": "etiquetas-B: palavra e um traço que cresce com a etapa da cobrança; item indisponível atenuado com o motivo escrito",
+    "controles": "controles-B: escolha por sublinhado grosso, régua de fio com marcador de barra e marcas escritas, lista suspensa e caixa de seleção como sublinhado com 'sim/não'",
+    "aviso": "aviso-A: faixa de bloco de largura total que sobe pela borda de baixo, pavio de 6 s, pausa no cursor/foco, Esc fecha",
+    "tabela": "tabela-A: linhas de 2px sob linha de 4px; a linha sob o cursor, o foco ou selecionada inverte e abre o detalhe; painel de edição em faixa com barra de 8px à esquerda (não inverte)"
+  }
+}
