@@ -1,12 +1,8 @@
 # 🎓 Sistema de Matrículas
 
-Sistema de matrículas acadêmicas modelado e implementado em **Java**, desenvolvido como trabalho da disciplina de **Laboratório de Desenvolvimento de Software**.
+Sistema de matrículas acadêmicas do trabalho de **Laboratório de Desenvolvimento de Software**. A **secretaria** monta o currículo de cada semestre e mantém as contas; **alunos** se matriculam e cancelam (até 4 obrigatórias e 2 optativas); **professores** veem os alunos das suas turmas; um **sistema de pagamento externo** é avisado e cobra a cada matrícula.
 
-O sistema permite que a **secretaria** gere o currículo de cada semestre e mantenha os cadastros, que **alunos** se matriculem (e cancelem a matrícula) em disciplinas obrigatórias e optativas, que **professores** consultem os alunos de suas turmas e que um **sistema externo de pagamento** seja notificado para realizar as cobranças.
-
-> ⚠️ **Status:** a base do projeto está implementada. As classes seguem o diagrama de classes e a maior parte das operações ainda são *stubs* (apenas imprimem no console o que fariam).
-
----
+Antes um esqueleto em Java com métodos que só imprimiam no console (`java/`, ainda no histórico do git); agora um **backend Java 21 modular** e um **frontend React + TypeScript**, construídos etapa por etapa na ordem do fluxo do usuário.
 
 ## 👥 Integrantes
 
@@ -17,113 +13,117 @@ O sistema permite que a **secretaria** gere o currículo de cada semestre e mant
 | Lucas Spiazzi |
 | Davi Lage |
 
----
+## ▶️ Como executar
 
-## 📋 Requisitos
+Pré-requisitos: **JDK 21**, **Maven 3.9** e **Node 22**.
 
-### Funcionais
+```bash
+# 1. backend (porta 8080). O perfil "dev" cria contas e dados de exemplo.
+cd backend
+mvn install                                            # compila e roda todos os testes
+java -jar api/target/api-0.1.0.jar --spring.profiles.active=dev
 
-| ID | Descrição |
-| :---: | :--- |
-| RF01 | Secretaria mantém currículos |
-| RF02 | Aluno mantém matrícula |
-| RF03 | Professor verifica alunos matriculados |
-| RF04 | Usuário realiza login |
-| RF05 | Sistema de pagamento notifica aluno |
-| RF06 | Secretaria mantém contas cadastradas |
+# 2. frontend (porta 5173), em outro terminal
+cd frontend
+npm install
+npm run dev                                            # http://localhost:5173
+```
 
-### Não-funcionais
+### Contas de teste (perfil `dev`)
 
-| ID | Descrição |
-| :---: | :--- |
-| RNF01 | O sistema de matrículas precisa se comunicar com um sistema externo já existente. |
-| RNF02 | Todos os usuários do sistema têm senhas que são utilizadas para validação do login. |
-| RNF03 | O sistema precisa estar no ar e estável durante o período de matrículas. |
+Senhas públicas, **só para desenvolvimento**: existem apenas com `--spring.profiles.active=dev`.
 
-Detalhes em [`requisitos.md`](requisitos.md).
+| Papel | Nº de pessoa | Senha | Nome | O que mostra |
+| :-- | :-- | :-- | :-- | :-- |
+| Secretaria | `SEC001` | `senhaSec123` | Maria Silva | contas, disciplinas, currículo 2026/2 (abrir/encerrar) |
+| Professor | `PROF100` | `senhaProf456` | Dr. Carlos Eduardo | 4 turmas: Engenharia de Software A, Lab. de Desenvolvimento A, Redes B, Banco de Dados A |
+| Professor | `PROF101` | `senhaProf789` | Profa. Helena Duarte | 4 turmas: Cálculo II A, Redes A, Inteligência Artificial A, Seminário de Pesquisa A |
+| Aluno | `ALU999` | `senhaAlu789` | João Pedro (matrícula 20261001) | sem matrículas: bom para testar matricular do zero |
+| Aluno | `ALU001` | `senhaAlu123` | Ana Beatriz (20261002) | Eng. de Software (obrigatória) + Seminário e Redes B (optativas): **limite de optativas 2/2** |
+| Aluno | `ALU002` | `senhaAlu123` | Bruno Costa (20261003) | igual à Ana |
+| Aluno | `ALU003` | `senhaAlu123` | Carla Nunes (20261004) | só Eng. de Software (obrigatória) |
 
----
+Situações prontas no semestre 2026/2 (aberto): **Engenharia de Software A** com quórum exato (3 alunos, o mínimo), **Seminário de Pesquisa A** lotada (2/2) e **Redes B** abaixo do mínimo (2/3, cai ao encerrar). As demais turmas estão vazias e também caem ao encerrar.
 
-## 🧑‍💻 Histórias de Usuário
+Para voltar aos dados de exemplo: pare o backend, apague `backend/data/` e suba de novo.
 
-| ID | Persona | Funcionalidade |
-| :---: | :--- | :--- |
-| US01 | Aluno | Fazer e desfazer matrícula em matérias obrigatórias e optativas |
-| US02 | Professor | Visualizar os alunos de cada disciplina |
-| US03 | Sistema de Pagamento | Receber avisos dos alunos que devem ser cobrados |
-| US04 | Secretaria | Gerar o currículo das disciplinas do semestre |
-| US05 | Secretaria | Manter as informações de todos os usuários |
+Fora do perfil `dev` não existe nenhuma conta e **não há senha padrão**. Para criar a primeira secretaria, defina a senha (12 caracteres ou mais) ao subir o servidor; ela só é usada se a conta ainda não existir, e as demais contas são criadas pela tela:
 
-Detalhes em [`historias_de_usuario.md`](historias_de_usuario.md).
+```bash
+MATRICULA_BOOTSTRAP_SENHA='uma-senha-longa-e-secreta' java -jar api/target/api-0.1.0.jar
+```
 
----
+O perfil `dev` também cria o semestre 2026/2 aberto, com uma turma com quórum, uma lotada (2/2) e uma abaixo do mínimo (2/3), para ver cada situação na tela. Sem o perfil `dev` o banco começa vazio e nenhuma conta é criada.
 
-## 📐 Modelagem
-
-### Diagrama de Casos de Uso
-
-![Casos de Uso](Casos%20de%20Uso%20Matr%C3%ADcula.png)
-
-### Diagrama de Classes
-
-![Diagrama de Classes](diagramaClasses/Diagrama%20v2.png)
-
-<details>
-<summary>Versão anterior (v1)</summary>
-
-![Diagrama de Classes v1](diagramaClasses/Diagrama%20v1.png)
-
-</details>
-
----
-
-## 🧱 Estrutura das classes
-
-| Classe | Papel |
-| :--- | :--- |
-| `Usuario` | Classe abstrata com nome, número de pessoa, senha e `realizarLogin()` |
-| `Aluno` | Usuário que se matricula e cancela matrícula; limite de **6 disciplinas** |
-| `Professor` | Usuário que leciona disciplinas e visualiza os alunos matriculados |
-| `Secretaria` | Usuário que mantém alunos, professores e disciplinas e gera o currículo do semestre |
-| `Curso` | Curso com nome, número de créditos e suas disciplinas |
-| `Curriculo` | Conjunto de disciplinas ofertadas em um semestre |
-| `Disciplina` | Disciplina com mínimo (padrão 3) e máximo (padrão 60) de alunos; valida se ocorre e encerra inscrições |
-| `Matricula` | Liga um aluno a uma disciplina (obrigatória/optativa) e notifica o sistema de pagamento |
-| `SistemaPagamento` | Interface para o sistema externo de cobrança |
-| `SistemaPagamentoExterno` | Implementação da interface que simula o sistema externo |
-| `Main` | Demonstração do fluxo completo do sistema |
-
----
-
-## 📁 Estrutura do repositório
+## 🧱 Estrutura
 
 ```
 matricula/
-├── java/                        # Código-fonte
-├── diagramaClasses/             # Diagramas de classes (v1 e v2)
-├── Casos de Uso Matrícula.png   # Diagrama de casos de uso
-├── requisitos.md                # Requisitos funcionais e não-funcionais
-├── historias_de_usuario.md      # Histórias de usuário
-└── README.md
+├── backend/            Maven multi-módulo, Java 21, Spring Boot 4
+│   ├── dominio/        entidades e regras de negócio (sem Spring)
+│   ├── pagamento/      porta do sistema externo (RNF01) + simulação
+│   └── api/            REST, segurança, persistência (H2), casos de uso
+├── frontend/           React 19 + TypeScript + Vite
+├── scripts/e2e.py      cenário ponta a ponta contra o jar
+├── .design/            decisões do /inspiration (conceito e páginas); sem design system global
+├── docs/               requisitos, ADRs, API, estratégia de testes
+└── diagramaClasses/, Casos de Uso Matrícula.png   modelagem UML
 ```
 
----
+Por que módulos: `dominio` não conhece web nem banco (dá para testar as regras sem subir nada), e `pagamento` isola o sistema externo atrás de uma interface (trocar a simulação por um cliente HTTP real não toca no resto). Detalhes em [`docs/adr/`](docs/adr).
 
-## ▶️ Como executar
+## ✅ Requisitos → onde estão
 
-Pré-requisito: **JDK 8+** instalado.
+| Requisito | Onde | Testes |
+| :-- | :-- | :-- |
+| **RF01** secretaria mantém currículos | `Curriculo`, `CurriculoServico`; telas Currículos e Disciplinas | `CurriculoTest`, `OfertaTest`, `EncerramentoTest` |
+| **RF02** aluno mantém matrícula | `Aluno.matricular/cancelar`, `MatriculaServico`; telas Currículo e Minhas matrículas | `AlunoMatriculaTest`, `MatriculaTest`, `ConcorrenciaTest` |
+| **RF03** professor vê os alunos | `ProfessorServico`; telas Minhas turmas e lista de chamada | `ProfessorTest` |
+| **RF04** login | Spring Security (sessão em cookie); tela de entrada | `SegurancaTest`, `SegurancaHttpTest` |
+| **RF05** pagamento | `SistemaPagamento`, `CobrancaServico`, `ReconciliadorDeCobrancas` | `PagamentoFakeTest`, `MatriculaTest`, `EncerramentoTest` |
+| **RF06** secretaria mantém contas | `ContaServico`; tela Contas | `ContasTest` |
+| **RNF01** sistema externo | módulo `pagamento` | `PagamentoFakeTest` |
+| **RNF02** senhas | bcrypt (`{bcrypt}`), limite de 72 bytes | `ContasTest`, `SegurancaTest` |
+| **RNF03** estável no período | trava por aluno e por turma; reconciliador; `/actuator/health` | `ConcorrenciaTest` |
+
+Requisitos detalhados, regras e decisões: [`docs/requisitos.md`](docs/requisitos.md). Referência da API: [`docs/api.md`](docs/api.md).
+
+## 🔒 Segurança
+
+- Sessão em cookie `HttpOnly; Secure; SameSite=Strict`; **nada da sessão fica no JavaScript** (sem `localStorage`/`sessionStorage`).
+- Proteção CSRF com token em cookie legível, devolvido no cabeçalho `X-XSRF-TOKEN` em toda escrita.
+- Senhas em bcrypt; bloqueio após 5 erros seguidos; mesma resposta para senha errada e conta inexistente.
+- Autorização por papel **e por objeto** (aluno só age em nome de si; professor só vê suas turmas).
+- Erros sempre `{codigo, mensagem}`, sem pilha nem SQL; cabeçalhos de segurança em toda resposta.
+- Travas de banco contra vaga vendida duas vezes e contra furar o limite de um aluno.
+
+Ver [`docs/adr/0003-seguranca.md`](docs/adr/0003-seguranca.md) para as decisões e os limites conhecidos.
+
+## 🧪 Qualidade
 
 ```bash
-cd java
-javac -d out *.java
-java -cp out Main
+cd backend  && mvn test          # 93 testes: 19 domínio, 5 pagamento, 69 da API (segurança, fluxos, concorrência)
+cd frontend && npm test          # 111 testes, inclui acessibilidade (axe) em todas as telas
+cd frontend && npm run typecheck && npm run lint && npm run build
 ```
 
-A execução roda a demonstração do `Main`: login dos usuários, geração do currículo, criação de curso e disciplina, matrícula de um aluno, notificação ao sistema de pagamento e cancelamento da matrícula.
+E um cenário ponta a ponta (26 passos, do login da secretaria ao encerramento do semestre) contra o jar empacotado, com só a secretaria inicial:
 
----
+```bash
+MATRICULA_BOOTSTRAP_SENHA=x-uma-senha-longa java -jar backend/api/target/api-0.1.0.jar --server.port=8081 --spring.datasource.url=jdbc:h2:mem:e2e &
+E2E_SENHA_SECRETARIA=x-uma-senha-longa python3 scripts/e2e.py http://localhost:8081
+```
+
+Estratégia em [`docs/estrategia-de-testes.md`](docs/estrategia-de-testes.md).
+
+## 📐 Modelagem
+
+Casos de uso e classes (v1 e v2) estão na raiz e em `diagramaClasses/`. A `Turma` do diagrama v2 foi implementada: a matrícula é em uma turma de uma disciplina, e os limites de 3 a 60 alunos valem por turma.
+
+## 🤝 Para quem vai mexer no código
+
+[`CLAUDE.md`](CLAUDE.md) resume as regras do projeto (segurança, domínio, design), os comandos e as armadilhas já encontradas. Vale para o grupo e para o Claude Code.
 
 ## 🛠️ Tecnologias
 
-- Java
-- UML (casos de uso e diagrama de classes)
+Java 21 · Spring Boot 4.1 (Web, Data JPA, Security, Validation, Actuator) · H2 · JUnit 5 · React 19 · TypeScript · Vite · Vitest · Testing Library · axe-core · CSS Modules.
