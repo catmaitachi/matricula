@@ -1,0 +1,60 @@
+.grupo {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.legenda {
+  padding: 0;
+  margin-bottom: var(--e1);
+  font: 700 0.75rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e1) var(--e4);
+}
+
+.opcao {
+  position: relative;
+  cursor: pointer;
+}
+
+.opcao input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* a escolha é o sublinhado grosso e o peso da letra, e não só a cor */
+.opcao span {
+  display: grid;
+  place-items: center;
+  min-height: 48px;
+  padding: 0 4px;
+  border-bottom: 2px solid transparent;
+  font-weight: 600;
+  opacity: 0.72;
+  transition:
+    border-color 200ms,
+    opacity 200ms;
+}
+
+.opcao input:checked + span {
+  border-bottom-color: var(--destaque);
+  font-weight: 800;
+  opacity: 1;
+}
+
+.opcao input:focus-visible + span {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
+}

@@ -1,0 +1,73 @@
+.grupo {
+  display: inline-grid;
+  justify-items: start;
+  gap: var(--e2);
+  width: min(100%, 460px);
+}
+
+/* faixa larga; o bloco vermelho corre da esquerda para a direita enquanto se segura e recua se soltar antes */
+.botao {
+  --p: 0;
+  all: unset;
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 56px;
+  border: var(--fio) solid var(--erro);
+  color: var(--erro);
+  font-weight: 800;
+  font-size: 1.0667rem;
+  letter-spacing: -0.02em;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.botao:focus-visible {
+  outline: 2px solid var(--erro);
+  outline-offset: 3px;
+}
+
+.camada {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.cheia {
+  background: var(--erro);
+  color: var(--sobre-erro);
+  clip-path: inset(0 calc((1 - var(--p)) * 100%) 0 0);
+  pointer-events: none;
+}
+
+.contagem {
+  font: 700 0.75rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+}
+
+.final {
+  display: none;
+}
+
+.botao[data-fase='feito'] {
+  cursor: default;
+}
+
+.botao[data-fase='feito'] .inicial {
+  display: none;
+}
+
+.botao[data-fase='feito'] .final {
+  display: inline;
+}
+
+.dica {
+  font: 600 0.75rem var(--fonte-mono);
+  letter-spacing: 0.04em;
+}

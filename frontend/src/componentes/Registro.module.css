@@ -1,0 +1,79 @@
+/* registro: numeral grande, rótulo em mono e caixinhas; usa as cores do contexto (a cena é invertida) */
+.registro {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  align-content: start;
+  gap: var(--e1) var(--e2);
+  padding-top: var(--e2);
+  border-top: 1px solid var(--texto);
+}
+
+.valor {
+  grid-row: 1 / span 3;
+  display: grid;
+  gap: var(--e2);
+  font-size: clamp(2.4rem, 6vw, 4.5rem);
+  font-weight: 800;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: var(--destaque);
+}
+
+.limitado .valor {
+  color: var(--laranja);
+}
+
+.rotulo {
+  font: 600 0.75rem / 1.3 var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.limite {
+  font: 700 0.75rem / 1.3 var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.caixinhas {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.caixinhas i {
+  width: 18px;
+  height: 10px;
+  border: var(--fio) solid currentColor;
+}
+
+.caixinhas .cheia {
+  background: currentColor;
+}
+
+/* cobrança: a palavra e um traço que cresce com a etapa (pendente, enviada, cancelando, cancelada) */
+.cobranca {
+  display: inline-grid;
+  justify-items: end;
+  gap: 6px;
+  font: 700 0.75rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.traco {
+  position: relative;
+  display: block;
+  width: 96px;
+  height: 2px;
+  background: color-mix(in srgb, currentColor 25%, transparent);
+}
+
+.traco::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--destaque);
+  transform-origin: left;
+  transform: scaleX(var(--etapa));
+}

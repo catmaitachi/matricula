@@ -1,0 +1,27 @@
+.carregando {
+  padding: var(--e4) 0;
+  font: 700 0.8667rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.carregando::before {
+  content: '■ ';
+}
+
+.erro {
+  display: grid;
+  justify-items: start;
+  gap: var(--e2);
+  padding: var(--e3) 0;
+  font-weight: 700;
+}
+
+.erro p {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 8px;
+  background: var(--erro);
+  color: var(--sobre-erro);
+}

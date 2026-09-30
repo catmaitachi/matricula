@@ -1,0 +1,92 @@
+/* faixa de bloco que sobe pela borda de baixo; o pavio é a linha que encurta em 6 s */
+.regiao {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 70;
+  pointer-events: none;
+  display: grid;
+}
+
+.regiao > div {
+  grid-area: 1 / 1;
+}
+
+.aviso {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: var(--e3) var(--e1) var(--e3) var(--margem);
+  background: var(--destaque);
+  color: var(--sobre-destaque);
+  font-weight: 700;
+  pointer-events: auto;
+  overflow: hidden;
+  animation: sobe 220ms var(--seco) both;
+}
+
+.erro {
+  background: var(--erro);
+  color: var(--sobre-erro);
+}
+
+.aviso p {
+  margin: 0;
+}
+
+.rotulo {
+  margin-right: 12px;
+  font: 800 0.75rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fechar {
+  flex: none;
+  min-width: 44px;
+  min-height: 44px;
+  background: none;
+  border: 0;
+  color: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.fechar:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: -6px;
+}
+
+.pavio {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.6;
+  transform-origin: left;
+  animation: queima linear forwards;
+}
+
+@keyframes sobe {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes queima {
+  to {
+    transform: scaleX(0);
+  }
+}
+
+/* o pavio é informação de tempo, não decoração: continua contando com movimento reduzido */
+@media (prefers-reduced-motion: reduce) {
+  .pavio {
+    animation-duration: 6s !important;
+  }
+}

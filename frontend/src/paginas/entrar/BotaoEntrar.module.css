@@ -1,0 +1,61 @@
+/* Botão do login: cores herdadas da cena (--cena-fg, --cena-bg em Entrar.module.css). */
+.botao {
+  --borda: 2px;
+  --duracao: 260ms;
+  --curva: cubic-bezier(0.23, 1, 0.32, 1);
+  --tinta: var(--cena-fg);
+  --sobre: var(--cena-bg);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 44px;
+  padding: 0 calc(var(--espaco) * 6);
+  background: none;
+  border: var(--borda) solid var(--tinta);
+  border-radius: 0;
+  color: var(--tinta);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: color var(--duracao) var(--curva);
+}
+
+.botao::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--tinta);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform var(--duracao) var(--curva);
+}
+
+.botao:focus-visible {
+  outline-color: var(--tinta);
+}
+
+.botao:active:not(:disabled) {
+  color: var(--sobre);
+}
+
+.botao:active:not(:disabled)::before {
+  transform: scaleY(1);
+}
+
+@media (hover: hover) {
+  .botao:hover:not(:disabled) {
+    color: var(--sobre);
+  }
+
+  .botao:hover:not(:disabled)::before {
+    transform: scaleY(1);
+  }
+}
+
+/* indisponível: cor atenuada e contorno contínuo, sem tracejado */
+.botao:disabled {
+  border-color: color-mix(in srgb, var(--cena-fg) 55%, var(--cena-bg));
+  color: color-mix(in srgb, var(--cena-fg) 75%, var(--cena-bg));
+  cursor: not-allowed;
+}

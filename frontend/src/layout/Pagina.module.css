@@ -1,0 +1,142 @@
+.pagina {
+  display: grid;
+  align-content: start;
+}
+
+/* cena: título gigante e grão de papel como no login, sobre o papel com um tom do destaque */
+.cena {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: clamp(var(--e3), 5vw, var(--e5));
+  overflow: hidden;
+  padding: clamp(var(--e3), 5vw, var(--e5)) var(--margem);
+  background: color-mix(in srgb, var(--destaque) 12%, var(--fundo));
+  border-bottom: var(--fio) solid var(--texto);
+}
+
+.cena::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.2;
+  background: var(--texto);
+  mask-image: var(--grao);
+}
+
+.cena > * {
+  width: 100%;
+  max-width: var(--medida);
+}
+
+.meta {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 24px;
+  font: 600 0.75rem / 1.4 var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.titulo {
+  font-size: clamp(2.6rem, 9.5vw, 7.5rem);
+  font-weight: 800;
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+  perspective: 700px;
+}
+
+.so {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.palavra {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.letra {
+  display: inline-block;
+  transform-origin: 50% 0;
+  backface-visibility: hidden;
+}
+
+/* o título já é texto no primeiro quadro; a dobra só revela, uma vez */
+@media (prefers-reduced-motion: no-preference) {
+  .letra {
+    animation: dobra 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 32ms + 80ms);
+  }
+}
+
+@keyframes dobra {
+  from {
+    transform: rotateX(-92deg);
+    opacity: 0;
+  }
+
+  60% {
+    opacity: 1;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e2);
+}
+
+.registros {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: var(--e4) var(--e5);
+}
+
+.corpo {
+  display: grid;
+  gap: clamp(var(--e5), 7vw, var(--e6));
+  align-content: start;
+  padding: clamp(var(--e4), 6vw, var(--e6)) var(--margem) 160px;
+  max-width: calc(var(--medida) + 2 * var(--margem));
+}
+
+.secao {
+  display: grid;
+  gap: var(--e3);
+}
+
+.subtitulo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+/* um quadrado de cor marca a linha de contexto */
+.kicker::before {
+  content: '';
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-right: 10px;
+  background: var(--destaque);
+}
+
+@media (max-width: 560px) {
+  .registros {
+    gap: var(--e3);
+  }
+}

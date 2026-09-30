@@ -1,0 +1,138 @@
+/* O login é autônomo: nada aqui vem de tokens globais. Cena de abertura: as cores se invertem (texto vira fundo) e o grão dá textura. */
+.cena {
+  --texto: #141b24;
+  --fundo: #f8fafd;
+  --erro: #b02a2d;
+  --fonte: ui-sans-serif, system-ui, 'Segoe UI', Roboto, sans-serif;
+  --fonte-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --espaco: 4px;
+  --grao: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  font: 15px / 1.5 var(--fonte);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  .cena {
+    --texto: #ebeff4;
+    --fundo: #0b1015;
+    --erro: #f47b74;
+  }
+}
+
+/* escolha manual de tema (botão do trilho, guardada no navegador) */
+:global(:root[data-tema='claro']) .cena {
+  --texto: #ebeff4;
+  --fundo: #0b1015;
+  --erro: #f47b74;
+}
+
+:global(:root[data-tema='escuro']) .cena {
+  --texto: #141b24;
+  --fundo: #f8fafd;
+  --erro: #b02a2d;
+}
+
+.cena {
+  --cena-bg: var(--texto);
+  --cena-fg: var(--fundo);
+
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: calc(var(--espaco) * 6);
+  min-height: 100dvh;
+  padding: calc(var(--espaco) * 6);
+  overflow: hidden;
+  background: var(--cena-bg);
+  color: var(--cena-fg);
+}
+
+.cena::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  background: var(--cena-fg);
+  mask-image: var(--grao);
+}
+
+.cena :focus-visible {
+  outline-color: var(--cena-fg);
+}
+
+.meta,
+.titulo,
+.form {
+  position: relative;
+  z-index: 1;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--espaco) calc(var(--espaco) * 4);
+  font: 0.7333rem / 1.4 var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.titulo {
+  align-self: center;
+  font-size: clamp(4rem, 19vw, 18.75rem);
+  font-weight: 800;
+  line-height: 0.82;
+  letter-spacing: -0.055em;
+}
+
+/* o título é texto desde o primeiro quadro; a máscara só o revela, uma vez */
+@media (prefers-reduced-motion: no-preference) {
+  .titulo {
+    animation: revela 900ms cubic-bezier(0.7, 0, 0.2, 1) 150ms both;
+  }
+}
+
+@keyframes revela {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(18px);
+  }
+
+  to {
+    clip-path: inset(-0.2em -0.1em -0.1em);
+    transform: none;
+  }
+}
+
+.form {
+  display: grid;
+  gap: calc(var(--espaco) * 3);
+}
+
+.campos {
+  display: grid;
+  gap: calc(var(--espaco) * 4);
+  align-items: end;
+}
+
+@media (min-width: 720px) {
+  .campos {
+    grid-template-columns: 1fr 1fr auto;
+    gap: calc(var(--espaco) * 6);
+  }
+}
+
+.erroGeral {
+  justify-self: start;
+  padding: calc(var(--espaco) * 2) calc(var(--espaco) * 3.5);
+  background: var(--cena-fg);
+  color: var(--erro);
+  font-weight: 700;
+}
+
+.erroGeral::before {
+  content: '! ';
+}

@@ -1,0 +1,149 @@
+.tabela {
+  display: grid;
+  border-top: var(--fio) solid var(--texto);
+}
+
+.linha {
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(1.75rem, 6vw, 2.5rem) minmax(0, 1fr) auto;
+  column-gap: var(--e2);
+  row-gap: 4px;
+  align-items: start;
+  padding: var(--e3) var(--e1);
+  border-bottom: 1px solid color-mix(in srgb, var(--texto) 40%, var(--fundo));
+  outline: none;
+  transition:
+    background 120ms,
+    color 120ms;
+}
+
+/* sob o cursor, no foco ou selecionada: um tom do destaque e uma barra fina na frente */
+.linha:hover,
+.linha:has(:focus-visible),
+.linha:focus-visible,
+.linha[aria-selected='true'] {
+  background: color-mix(in srgb, var(--destaque) 14%, var(--fundo));
+  box-shadow: inset 3px 0 0 var(--destaque);
+}
+
+.interativa {
+  cursor: pointer;
+}
+
+.interativa:focus-visible {
+  outline: 2px solid var(--destaque);
+  outline-offset: -4px;
+}
+
+.indice {
+  grid-row: 1 / span 2;
+  padding-top: 0.45rem;
+  font: 600 0.75rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+}
+
+.linha > :where(span, strong, div):not(.indice) {
+  grid-column: 2;
+}
+
+.linha > :where(span, div)[data-fim] {
+  grid-column: 3;
+  grid-row: 1 / span 2;
+  justify-self: end;
+  padding-top: 0.4rem;
+}
+
+.linha strong {
+  font-size: 1.25rem;
+  letter-spacing: -0.03em;
+}
+
+/* indisponível: cor atenuada e o motivo escrito; sem tachado nem tracejado */
+.linha[aria-disabled='true'] {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+/* indisponível não reage ao cursor */
+.linha[aria-disabled='true']:hover {
+  background: none;
+  box-shadow: none;
+}
+
+.marca {
+  display: inline-block;
+  margin: 4px 0 0 var(--e2);
+  font: 600 0.75rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* celular: a etiqueta de estado vai para a própria linha, alinhada ao título */
+@media (max-width: 560px) {
+  .marca {
+    display: block;
+    margin: 6px 0 0;
+  }
+
+  /* o contador/estado do fim da linha desce para a coluna do título, em vez de espremê-lo */
+  .linha > :where(span, div)[data-fim] {
+    grid-column: 2;
+    grid-row: auto;
+    justify-self: start;
+    padding-top: var(--e1);
+  }
+}
+
+/* o detalhe abre por dentro: a altura vai de 0 a auto sem medir nada em JS */
+.linha > .detalhe {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 280ms var(--seco);
+}
+
+.detalhe > p {
+  min-height: 0;
+  overflow: hidden;
+  padding-left: calc(clamp(1.75rem, 6vw, 2.5rem) + var(--e2));
+  font: 600 0.75rem / 1.4 var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.linha:hover > .detalhe,
+.linha:has(:focus-visible) > .detalhe,
+.linha[aria-selected='true'] > .detalhe {
+  grid-template-rows: 1fr;
+}
+
+.linha:hover > .detalhe > p,
+.linha:has(:focus-visible) > .detalhe > p,
+.linha[aria-selected='true'] > .detalhe > p {
+  padding-top: var(--e2);
+}
+
+.painel {
+  display: grid;
+  gap: var(--e4);
+  /* o conteúdo do painel começa na mesma coluna do título da linha */
+  padding: var(--e4) var(--e4) var(--e4) calc(var(--e1) + clamp(1.75rem, 6vw, 2.5rem) + var(--e2) - 3px);
+  background: color-mix(in srgb, var(--destaque) 8%, var(--fundo));
+  border-left: 3px solid var(--destaque);
+  border-bottom: 1px solid color-mix(in srgb, var(--texto) 40%, var(--fundo));
+}
+
+/* o painel já é o bloco: o formulário dentro dele não ganha outra moldura */
+.painel form {
+  max-width: none;
+  padding: 0;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .linha,
+  .linha > .detalhe {
+    transition: none;
+  }
+}

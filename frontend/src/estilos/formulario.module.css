@@ -1,0 +1,102 @@
+/* padrões de formulário compartilhados pelas telas */
+.formulario {
+  display: grid;
+  gap: var(--e4);
+  max-width: 36rem;
+  padding: var(--e4) clamp(var(--e2), 4vw, var(--e4));
+  border: 1px solid color-mix(in srgb, var(--texto) 40%, var(--fundo));
+}
+
+.colunas {
+  display: grid;
+  gap: var(--e4);
+}
+
+@media (min-width: 34rem) {
+  .colunas {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--e2);
+}
+
+.vazio {
+  max-width: 44ch;
+  font-weight: 600;
+}
+
+.fim {
+  font: 700 0.8667rem var(--fonte-mono);
+  white-space: nowrap;
+}
+
+.subtexto {
+  font-size: 0.9333rem;
+  opacity: 0.8;
+}
+
+.lista {
+  display: grid;
+  gap: var(--e2);
+}
+
+.lista legend {
+  padding: 0;
+  margin-bottom: 4px;
+  font: 700 0.75rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* caixa de seleção: só o sublinhado e a palavra "sim" ou "não" */
+.marcador {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.marcador input {
+  appearance: none;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 44px;
+  margin: 0;
+  border-bottom: 1px solid var(--texto);
+  cursor: pointer;
+}
+
+.marcador input::after {
+  content: 'não';
+  font: 600 0.75rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.marcador input:checked::after {
+  content: 'sim';
+  font-weight: 800;
+  opacity: 1;
+}
+
+.marcador input:focus-visible {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
+}
+
+.voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-weight: 700;
+}

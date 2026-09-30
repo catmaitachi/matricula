@@ -1,0 +1,257 @@
+.pular {
+  position: absolute;
+  left: 8px;
+  top: -100px;
+  z-index: 60;
+  padding: 12px 16px;
+  background: var(--destaque);
+  color: var(--sobre-destaque);
+  font-weight: 700;
+}
+
+.pular:focus {
+  top: 8px;
+}
+
+/* trilho: bloco sólido colado na borda, com grão; abre por cima do conteúdo para a tela não pular */
+.trilho {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 40;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+  /* nada passa da borda: o que não cabe na largura é cortado com reticências e o que não cabe na altura rola */
+  overflow: hidden auto;
+  scrollbar-width: none;
+  background: var(--fundo);
+  border-right: var(--fio) solid var(--texto);
+  transition: width 260ms var(--seco);
+}
+
+.trilho::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.2;
+  background: var(--texto);
+  mask-image: var(--grao);
+}
+
+.trilho:hover,
+.trilho:focus-within,
+.fixa {
+  width: 300px;
+}
+
+.item {
+  all: unset;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: 16px;
+  min-width: 0;
+  min-height: 60px;
+  padding: 0 20px 0 24px;
+  border-bottom: 1px solid color-mix(in srgb, var(--texto) 30%, var(--fundo));
+  color: var(--texto);
+  font-weight: 800;
+  font-size: 1.0667rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 120ms,
+    color 120ms;
+}
+
+.item:hover,
+.item:focus-visible,
+.item:global(.active) {
+  background: var(--destaque);
+  color: var(--sobre-destaque);
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--sobre-destaque);
+  outline-offset: -6px;
+}
+
+.icone {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+}
+
+.numero {
+  flex: none;
+  margin-left: auto;
+  font: 700 0.75rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+}
+
+.texto {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  opacity: 0;
+  transition: opacity 120ms;
+}
+
+.nome {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font: 600 0.75rem var(--fonte-mono);
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+}
+
+.trilho:hover .texto,
+.trilho:focus-within .texto,
+.fixa .texto {
+  opacity: 1;
+  transition-delay: 100ms;
+}
+
+.folga {
+  flex: 1;
+}
+
+.principal {
+  margin-left: 80px;
+  min-height: 100dvh;
+  outline: none;
+}
+
+.cortina {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  background: var(--destaque);
+  clip-path: inset(0 0 100% 0);
+}
+
+.cortina::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.25;
+  background: var(--sobre-destaque);
+  mask-image: var(--grao);
+}
+
+/* barra do celular e cortina do menu: só existem no celular */
+.topo,
+.veu,
+.soCelular {
+  display: none;
+}
+
+/* celular: barra fina no topo com o hambúrguer; o trilho vira uma gaveta que abre por cima da página */
+@media (max-width: 720px) {
+  .topo {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    padding: 0 var(--margem) 0 calc(var(--margem) - 16px);
+    background: var(--fundo);
+    border-bottom: var(--fio) solid var(--texto);
+  }
+
+  .hamburguer {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 16px;
+    font-weight: 800;
+    cursor: pointer;
+  }
+
+  .hamburguer:focus-visible {
+    outline: 2px solid var(--destaque);
+    outline-offset: -4px;
+  }
+
+  .marca {
+    font: 700 0.75rem var(--fonte-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .veu {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: color-mix(in srgb, var(--texto) 45%, transparent);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 200ms,
+      visibility 0s 200ms;
+  }
+
+  .veuAberto {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .trilho,
+  .trilho:hover,
+  .trilho:focus-within,
+  .fixa {
+    z-index: 60;
+    width: min(86vw, 320px);
+    transform: translateX(-101%);
+    visibility: hidden;
+    transition:
+      transform 260ms var(--seco),
+      visibility 0s 260ms;
+  }
+
+  .trilho.aberto {
+    transform: none;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .texto {
+    opacity: 1;
+  }
+
+  .soCelular {
+    display: flex;
+  }
+
+  .soDesktop {
+    display: none;
+  }
+
+  .principal {
+    margin-left: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .trilho,
+  .veu,
+  .item,
+  .texto {
+    transition: none;
+  }
+}

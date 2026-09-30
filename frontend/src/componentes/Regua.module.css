@@ -1,0 +1,88 @@
+/* régua de fio: marcador de barra e as referências que o sistema conhece escritas embaixo */
+.regua {
+  --v: 0;
+  display: grid;
+  gap: var(--e1);
+  min-width: 0;
+}
+
+.topo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.rotulo {
+  font: 700 0.75rem var(--fonte-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.valor {
+  font: 800 1.25rem var(--fonte-mono);
+}
+
+.regua input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.regua input:focus-visible {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
+}
+
+.regua input::-webkit-slider-runnable-track {
+  height: 2px;
+  background: linear-gradient(90deg, var(--destaque) calc(var(--v) * 100%), color-mix(in srgb, var(--texto) 35%, transparent) 0);
+}
+
+.regua input::-moz-range-track {
+  height: 1px;
+  background: color-mix(in srgb, var(--texto) 35%, transparent);
+}
+
+.regua input::-moz-range-progress {
+  height: 2px;
+  background: var(--destaque);
+}
+
+.regua input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 4px;
+  height: 24px;
+  margin-top: -11px;
+  background: var(--destaque);
+  border: 0;
+  border-radius: 0;
+}
+
+.regua input::-moz-range-thumb {
+  width: 4px;
+  height: 24px;
+  background: var(--destaque);
+  border: 0;
+  border-radius: 0;
+}
+
+.marcas {
+  position: relative;
+  height: 20px;
+  margin-top: -6px;
+}
+
+.marcas span {
+  position: absolute;
+  /* a marca no começo fica alinhada à esquerda, no fim à direita, no meio centralizada */
+  translate: calc(var(--f, 0.5) * -100%) 0;
+  white-space: nowrap;
+  font: 600 0.6667rem var(--fonte-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}

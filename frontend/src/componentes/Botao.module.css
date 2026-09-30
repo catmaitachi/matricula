@@ -1,0 +1,57 @@
+/* contorno fino que enche de baixo para cima com o destaque */
+.botao {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 48px;
+  padding: 0 var(--e4);
+  background: none;
+  border: var(--fio) solid var(--texto);
+  border-radius: 0;
+  color: var(--texto);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: color 260ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.botao::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--destaque);
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 260ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.botao:active:not(:disabled) {
+  color: var(--sobre-destaque);
+}
+
+.botao:active:not(:disabled)::before {
+  transform: scaleY(1);
+}
+
+@media (hover: hover) {
+  .botao:hover:not(:disabled) {
+    border-color: var(--destaque);
+    color: var(--sobre-destaque);
+  }
+
+  .botao:hover:not(:disabled)::before {
+    transform: scaleY(1);
+  }
+}
+
+/* indisponível: cor atenuada e contorno contínuo, sem tracejado */
+.botao:disabled {
+  border-color: color-mix(in srgb, var(--texto) 55%, var(--fundo));
+  color: color-mix(in srgb, var(--texto) 70%, var(--fundo));
+  cursor: not-allowed;
+}
